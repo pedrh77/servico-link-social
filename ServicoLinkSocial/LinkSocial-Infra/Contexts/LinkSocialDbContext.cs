@@ -1,0 +1,14 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace LinkSocial_Infra.Contexts
+{
+    public class LinkSocialDbContext : DbContext
+    {
+        public LinkSocialDbContext(DbContextOptions<LinkSocialDbContext> options) : base(options)
+        {
+
+        }
+
+        public DbSet<Usuario> Usuarios { get; set; }
+    }
+}
