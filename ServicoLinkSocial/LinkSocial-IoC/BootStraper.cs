@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LinkSocial_Domain.Interfaces;
 using LinkSocial_Domain.Interfaces.Auth;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Services;
@@ -79,6 +80,7 @@ namespace LinkSocial_IoC
         {
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IMd5HashService, Md5HashService>();
         }
 
         public static void RegisterRepositories(IServiceCollection services)

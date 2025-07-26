@@ -3,6 +3,7 @@ using System;
 using LinkSocial_Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LinkSocial_Infra.Migrations
 {
     [DbContext(typeof(LinkSocialDbContext))]
-    partial class LinkSocialDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250726194514_UsuarioRemaster")]
+    partial class UsuarioRemaster
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
