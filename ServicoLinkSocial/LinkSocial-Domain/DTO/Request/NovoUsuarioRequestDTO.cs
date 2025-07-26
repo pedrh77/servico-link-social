@@ -10,7 +10,6 @@ namespace LinkSocial_Domain.DTO.Request
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "O telefone é obrigatório.")]
-        [Phone(ErrorMessage = "Telefone em formato inválido.")]
         public string Telefone { get; set; }
 
         [Required(ErrorMessage = "O e-mail é obrigatório.")]

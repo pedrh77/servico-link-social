@@ -18,9 +18,9 @@ namespace LinkSocial_IoC
         public static IServiceCollection ConfigureDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             DatabaseConfiguration(services, configuration);
-
             RegisterServices(services);
             RegisterRepositories(services);
+            
             return services;
         }
 
