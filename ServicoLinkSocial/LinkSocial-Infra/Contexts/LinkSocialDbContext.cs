@@ -9,7 +9,6 @@ namespace LinkSocial_Infra.Contexts
         {
 
         }
-
         public DbSet<Usuario> Usuarios { get; set; }
     }
 }

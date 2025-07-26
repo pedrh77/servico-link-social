@@ -70,7 +70,7 @@ namespace LinkSocial_IoC
         private static void DatabaseConfiguration(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<LinkSocialDbContext>(
-                config => config.UseNpgsql(configuration.GetConnectionString("DatabaseConnection"), b => b.MigrationsAssembly("LinkSocial_Infra"))
+                config => config.UseNpgsql(configuration.GetConnectionString("DatabaseConnection"), b => b.MigrationsAssembly("LinkSocial-Infra"))
                 );
         }
 
