@@ -1,7 +1,10 @@
 ﻿using LinkSocial_Infra.Contexts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace LinkSocial_IoC
 {
@@ -62,7 +65,7 @@ namespace LinkSocial_IoC
         private static void DatabaseConfiguration(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<LinkSocialDbContext>(
-                config => config.UseNpgsql(configuration.GetConnectionString("DatabaseConnection"), b => b.MigrationsAssembly("Lauerp-Infra"))
+                config => config.UseNpgsql(configuration.GetConnectionString("DatabaseConnection"), b => b.MigrationsAssembly("LinkSocial_Infra"))
                 );
         }
 
