@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkSocial-API", "LinkSocial-API\LinkSocial-API.csproj", "{F98E616A-54EB-4397-95BE-C81617EF298C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkSocial-IoC", "LinkSocial-IoC\LinkSocial-IoC.csproj", "{1C18BFF1-65B1-443E-980C-D2FC8F007CAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkSocial-Domain", "LinkSocial-Domain\LinkSocial-Domain.csproj", "{918D7D62-8DB5-40A4-AD51-8FEC2B6BAF9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkSocial-Infra", "LinkSocial-Infra\LinkSocial-Infra.csproj", "{8633D297-A67A-4C32-91AD-DE853717E791}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F98E616A-54EB-4397-95BE-C81617EF298C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F98E616A-54EB-4397-95BE-C81617EF298C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F98E616A-54EB-4397-95BE-C81617EF298C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F98E616A-54EB-4397-95BE-C81617EF298C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C18BFF1-65B1-443E-980C-D2FC8F007CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C18BFF1-65B1-443E-980C-D2FC8F007CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C18BFF1-65B1-443E-980C-D2FC8F007CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C18BFF1-65B1-443E-980C-D2FC8F007CAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{918D7D62-8DB5-40A4-AD51-8FEC2B6BAF9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{918D7D62-8DB5-40A4-AD51-8FEC2B6BAF9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{918D7D62-8DB5-40A4-AD51-8FEC2B6BAF9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{918D7D62-8DB5-40A4-AD51-8FEC2B6BAF9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8633D297-A67A-4C32-91AD-DE853717E791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8633D297-A67A-4C32-91AD-DE853717E791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8633D297-A67A-4C32-91AD-DE853717E791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8633D297-A67A-4C32-91AD-DE853717E791}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
