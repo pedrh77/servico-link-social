@@ -10,8 +10,8 @@ namespace LinkSocial_Domain.Models
         public string Telefone { get; set; }
         public string Email { get; set; }
 
-        public string Cpf { get; set; }
-        public string Cnpj { get; set; }
+        public string? Cpf { get; set; }
+        public string? Cnpj { get; set; }
         public TipoUsuario TipoUsuario { get; set; }
 
         public string? SenhaHash { get; set; }
