@@ -1,4 +1,5 @@
-﻿using LinkSocial_Domain.Interfaces.Auth;
+﻿using AutoMapper;
+using LinkSocial_Domain.Interfaces.Auth;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Services;
 using LinkSocial_Infra.Contexts;

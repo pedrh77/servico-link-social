@@ -1,4 +1,6 @@
+using LinkSocial_API.Profiles;
 using LinkSocial_IoC;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureDependencyInjection(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -26,3 +29,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
