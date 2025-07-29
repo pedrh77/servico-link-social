@@ -1,13 +1,13 @@
 ﻿using LinkSocial_Domain.DTO.Request;
-using LinkSocial_Domain.Models;
+using LinkSocial_Domain.DTO.Response;
 
 namespace LinkSocial_Domain.Interfaces.Beneficios
 {
     public interface IBeneficioService
     {
-        Task CadastrarBeneficioAsync(BeneficiosRequestDTO request);
+        Task CadastrarBeneficioAsync(NovoBeneficioRequestDTO request);
         Task<bool> DeletarBeneficioAsync(int id);
-        Task ListarBeneficiosAsync();
-        Task<List<Beneficio>> ObterBeneficioPorIdAsync(int id);
+        Task<List<BeneficioResponseDTO>> ListarBeneficiosAsync();
+        Task<BeneficioResponseDTO?> ObterBeneficioPorIdAsync(int id);
     }
 }

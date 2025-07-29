@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureDependencyInjection(builder.Configuration);
-builder.Services.AddAutoMapper(cfg => { }, typeof(UsuarioProfile));
+builder.Services.AddAutoMapper(cfg => { }, typeof(DomainProfile));
 
 var app = builder.Build();
 

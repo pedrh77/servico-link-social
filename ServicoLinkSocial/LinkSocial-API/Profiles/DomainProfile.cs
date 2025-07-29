@@ -4,11 +4,13 @@ using LinkSocial_Domain.Models;
 
 namespace LinkSocial_API.Profiles
 {
-    public class UsuarioProfile : Profile
+    public class DomainProfile : Profile
     {
-        public UsuarioProfile()
+        public DomainProfile()
         {
             CreateMap<NovoUsuarioRequestDTO, Usuario>();
+            CreateMap<NovoBeneficioRequestDTO, Beneficio>();
+         
         }
     }
 }

@@ -10,7 +10,7 @@ namespace LinkSocial_API.Controllers
     public class BeneficiosController(IBeneficioService _beneficioService) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> RegistraBeneficioOng([FromBody] BeneficiosRequestDTO request)
+        public async Task<IActionResult> RegistraBeneficioOng([FromBody] NovoBeneficioRequestDTO request)
         {
             try
             {
