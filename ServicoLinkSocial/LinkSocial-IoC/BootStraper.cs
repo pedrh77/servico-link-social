@@ -18,6 +18,7 @@ namespace LinkSocial_IoC
     {
         public static IServiceCollection ConfigureDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
+            TokenInjection(services, configuration);
             DatabaseConfiguration(services, configuration);
             RegisterServices(services);
             RegisterRepositories(services);
@@ -59,12 +60,14 @@ namespace LinkSocial_IoC
                 };
             });
 
-            //services.AddAuthorization(options =>
-            //{
+            services.AddAuthorization(options =>
+            {
 
-            //    options.AddPolicy("xxx", policy =>
-            //        policy.RequireRole("xxx"));
-            //});
+                options.AddPolicy("ONG", policy =>
+                    policy.RequireRole("ONG"));
+                options.AddPolicy("Doador", policy =>
+                    policy.RequireRole("Doador"));
+            });
 
         }
 
