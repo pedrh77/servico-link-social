@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LinkSocial_Infra.Migrations
 {
     [DbContext(typeof(LinkSocialDbContext))]
-    [Migration("20250729003816_AdicionaBeneficioAssinatura")]
-    partial class AdicionaBeneficioAssinatura
+    [Migration("20250803043606_AdicionaBase")]
+    partial class AdicionaBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,49 +24,6 @@ namespace LinkSocial_Infra.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("LinkSocial_Domain.Models.Assinatura", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AssinaturaId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("BeneficioId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DoadorId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("Inicio")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("OngId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("Pago")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("Termina_em")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("TipoDoacao")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BeneficioId");
-
-                    b.HasIndex("DoadorId");
-
-                    b.HasIndex("OngId");
-
-                    b.ToTable("Assinaturas");
-                });
 
             modelBuilder.Entity("LinkSocial_Domain.Models.Beneficio", b =>
                 {
@@ -100,6 +57,55 @@ namespace LinkSocial_Infra.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Beneficos");
+                });
+
+            modelBuilder.Entity("LinkSocial_Domain.Models.Doacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BeneficioId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Comentario")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Criado_em")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("DoadorId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Modificado_em")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("OngId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StatusPagamento")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TipoDoacao")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeneficioId");
+
+                    b.HasIndex("DoadorId");
+
+                    b.HasIndex("OngId");
+
+                    b.ToTable("Doacoes");
                 });
 
             modelBuilder.Entity("LinkSocial_Domain.Models.Usuario", b =>
@@ -151,7 +157,18 @@ namespace LinkSocial_Infra.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("LinkSocial_Domain.Models.Assinatura", b =>
+            modelBuilder.Entity("LinkSocial_Domain.Models.Beneficio", b =>
+                {
+                    b.HasOne("LinkSocial_Domain.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("LinkSocial_Domain.Models.Doacao", b =>
                 {
                     b.HasOne("LinkSocial_Domain.Models.Beneficio", "Beneficio")
                         .WithMany()
@@ -176,17 +193,6 @@ namespace LinkSocial_Infra.Migrations
                     b.Navigation("Doador");
 
                     b.Navigation("Ong");
-                });
-
-            modelBuilder.Entity("LinkSocial_Domain.Models.Beneficio", b =>
-                {
-                    b.HasOne("LinkSocial_Domain.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
                 });
 #pragma warning restore 612, 618
         }

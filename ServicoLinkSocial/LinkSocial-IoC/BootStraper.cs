@@ -1,6 +1,7 @@
 ﻿using LinkSocial_Domain.Interfaces;
 using LinkSocial_Domain.Interfaces.Auth;
 using LinkSocial_Domain.Interfaces.Beneficios;
+using LinkSocial_Domain.Interfaces.Doacoes;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Services;
 using LinkSocial_Infra.Contexts;
@@ -84,12 +85,15 @@ namespace LinkSocial_IoC
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IBeneficioService, BeneficioService>();
+            services.AddScoped<IDoacaoService, DoacaoService>();
             services.AddScoped<IMd5HashService, Md5HashService>();
         }
 
         public static void RegisterRepositories(IServiceCollection services)
         {
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IBeneficioRepository, BeneficioRepository>();
+            services.AddScoped<IDoacaoRepository, DoacaoRepository>();
         }
 
     }

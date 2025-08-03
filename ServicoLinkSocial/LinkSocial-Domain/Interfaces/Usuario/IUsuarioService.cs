@@ -8,7 +8,7 @@ namespace LinkSocial_Domain.Interfaces.Usuarios
     {
         Task<bool> AtualizarUsuario(int id, NovoUsuarioRequestDTO request);
         Task<bool> DeletarUsuario(int id);
-        Task<UsuarioResponseDTO> ObterPorId(int id);
+        Task<Usuario> ObterPorId(int id);
         Task<List<UsuarioResponseDTO>> ObterPorTipo(int tipo);
         Task<List<UsuarioResponseDTO>> ObterTodos();
         Task RegistraUsuario(NovoUsuarioRequestDTO request);

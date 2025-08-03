@@ -10,7 +10,7 @@ namespace LinkSocial_Infra.Contexts
 
         }
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Assinatura> Assinaturas { get; set; }
         public DbSet<Beneficio> Beneficos { get; set; }
+        public DbSet<Doacao> Doacoes { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.DTO.Response;
+using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Models;
@@ -9,31 +10,45 @@ namespace LinkSocial_Domain.Services
 {
     public class UsuarioService(IUsuarioRepository _usuarioRepository, IMapper _mapper, IMd5HashService _md5HashService) : IUsuarioService
     {
-        public Task<bool> AtualizarUsuario(int id, NovoUsuarioRequestDTO request)
+        public async Task<bool> AtualizarUsuario(int id, NovoUsuarioRequestDTO request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeletarUsuario(int id)
+        public async Task<bool> DeletarUsuario(int id)
         {
-            throw new NotImplementedException();
+            var usuario = await _usuarioRepository.ObterPorId(id);
+            if (usuario == null || usuario.Deleted)
+                return false;
+
+            usuario.Deleted = true;
+            usuario.Ativo = false;
+            usuario.Modificado_em = DateTime.UtcNow;
+
+            await _usuarioRepository.Save(usuario);
+            return true;
         }
 
-        public Task<UsuarioResponseDTO> ObterPorId(int id)
+        public async Task<Usuario> ObterPorId(int id)
         {
-            throw new NotImplementedException();
+            var usuario = await _usuarioRepository.ObterPorId(id);
+            if (usuario == null || usuario.Deleted)
+                return null;
+
+            return usuario;
         }
 
-        public Task<List<UsuarioResponseDTO>> ObterPorTipo(int tipo)
+        public async Task<List<UsuarioResponseDTO>> ObterPorTipo(int tipo)
         {
-            throw new NotImplementedException();
+            var usuarios = await _usuarioRepository.ObterPorTipo((TipoUsuario)tipo);
+            return _mapper.Map<List<UsuarioResponseDTO>>(usuarios);
         }
 
-        public Task<List<UsuarioResponseDTO>> ObterTodos()
+        public async Task<List<UsuarioResponseDTO>> ObterTodos()
         {
-            throw new NotImplementedException();
+            var usuarios = await _usuarioRepository.ObterTodos();
+            return _mapper.Map<List<UsuarioResponseDTO>>(usuarios);
         }
-
         public async Task RegistraUsuario(NovoUsuarioRequestDTO request)
         {
             if (await _usuarioRepository.ValidaCPFExistente(request.Cpf))

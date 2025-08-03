@@ -22,6 +22,7 @@ namespace LinkSocial_Domain.Services
                 throw new Exception("Usuário informado não é uma ONG.");
 
             var beneficio = _mapper.Map<Beneficio>(request);
+            beneficio.UsuarioId = request.IdUsuario;
             await _beneficioRepository.Save(beneficio);
         }
 
