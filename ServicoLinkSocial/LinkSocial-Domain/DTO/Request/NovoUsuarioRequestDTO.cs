@@ -17,8 +17,8 @@ namespace LinkSocial_Domain.DTO.Request
         public string Email { get; set; }
 
 
-        public string? Cpf { get; set; }
-        public string? Cnpj { get; set; }
+        public string? Cpf { get; set; } = null;
+        public string? Cnpj { get; set; } = null;
 
         [Required(ErrorMessage = "O tipo de usuário é obrigatório.")]
         [EnumDataType(typeof(TipoUsuario))]

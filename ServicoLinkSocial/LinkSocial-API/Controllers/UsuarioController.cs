@@ -1,5 +1,6 @@
 ﻿using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.DTO.Response;
+using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,7 +55,7 @@ namespace LinkSocial_API.Controllers
         }
 
         [HttpGet("tipo/{tipo}")]
-        public async Task<ActionResult<IEnumerable<UsuarioResponseDTO>>> ObterPorTipo(int tipo)
+        public async Task<ActionResult<IEnumerable<UsuarioResponseDTO>>> ObterPorTipo([FromBody]TipoUsuario tipo)
         {
             var usuarios = await _usuarioService.ObterPorTipo(tipo);
             return Ok(usuarios);

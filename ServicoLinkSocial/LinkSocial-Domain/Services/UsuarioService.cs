@@ -18,7 +18,7 @@ namespace LinkSocial_Domain.Services
         public async Task<bool> DeletarUsuario(int id)
         {
             var usuario = await _usuarioRepository.ObterPorId(id);
-            if (usuario == null || usuario.Deleted)
+            if (usuario == null)
                 return false;
 
             usuario.Deleted = true;
@@ -32,15 +32,15 @@ namespace LinkSocial_Domain.Services
         public async Task<Usuario> ObterPorId(int id)
         {
             var usuario = await _usuarioRepository.ObterPorId(id);
-            if (usuario == null || usuario.Deleted)
+            if (usuario == null)
                 return null;
 
             return usuario;
         }
 
-        public async Task<List<UsuarioResponseDTO>> ObterPorTipo(int tipo)
+        public async Task<List<UsuarioResponseDTO>> ObterPorTipo(TipoUsuario tipo)
         {
-            var usuarios = await _usuarioRepository.ObterPorTipo((TipoUsuario)tipo);
+            var usuarios = await _usuarioRepository.ObterPorTipo(tipo);
             return _mapper.Map<List<UsuarioResponseDTO>>(usuarios);
         }
 
@@ -51,8 +51,16 @@ namespace LinkSocial_Domain.Services
         }
         public async Task RegistraUsuario(NovoUsuarioRequestDTO request)
         {
-            if (await _usuarioRepository.ValidaCPFExistente(request.Cpf))
-                throw new InvalidOperationException("CPF já cadastrado.");
+            if (request.TipoUsuario == TipoUsuario.Doador)
+            {
+                if (await _usuarioRepository.ValidaCPFExistente(request.Cpf))
+                    throw new InvalidOperationException("CPF já cadastrado.");
+            }
+            else
+            {
+                if (await _usuarioRepository.ValidaCNPJExistente(request.Cnpj))
+                    throw new InvalidOperationException("CNPJ já cadastrado.");
+            }
 
             if (await _usuarioRepository.ValidaEmailExistente(request.Email))
                 throw new InvalidOperationException("E-mail já cadastrado.");

@@ -27,9 +27,17 @@ namespace LinkSocial_Infra.Repository
             if (string.IsNullOrWhiteSpace(cpf))
                 return false;
 
-            return await _context.Usuarios.AnyAsync(u => u.Cpf == cpf && !u.Deleted);
+            return await _context.Usuarios.AnyAsync(u => u.Cpf == cpf && !u.Deleted );
         }
 
+
+        public async Task<bool> ValidaCNPJExistente(string? cnpj)
+        {
+            if (string.IsNullOrWhiteSpace(cnpj))
+                return false;
+
+            return await _context.Usuarios.AnyAsync(u => u.Cnpj == cnpj && !u.Deleted);
+        }
         public async Task<bool> ValidaEmailExistente(string email)
         {
             return await _context.Usuarios.AnyAsync(u => u.Email == email && !u.Deleted);
@@ -60,6 +68,7 @@ namespace LinkSocial_Infra.Repository
                 .Where(u => !u.Deleted)
                 .ToListAsync();
         }
+
 
     }
 }

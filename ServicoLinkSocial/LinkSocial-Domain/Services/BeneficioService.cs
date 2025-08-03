@@ -14,7 +14,7 @@ namespace LinkSocial_Domain.Services
     {
         public async Task CadastrarBeneficioAsync(NovoBeneficioRequestDTO request)
         {
-            var usuario = await _usuarioService.ObterPorId(request.IdUsuario);
+            var usuario = await _usuarioService.ObterPorId(request.UsuarioId);
             if (usuario == null || !usuario.Ativo)
                 throw new Exception("ONG não encontrada ou inativa.");
 
@@ -22,7 +22,6 @@ namespace LinkSocial_Domain.Services
                 throw new Exception("Usuário informado não é uma ONG.");
 
             var beneficio = _mapper.Map<Beneficio>(request);
-            beneficio.UsuarioId = request.IdUsuario;
             await _beneficioRepository.Save(beneficio);
         }
 

@@ -10,6 +10,7 @@ namespace LinkSocial_Domain.Interfaces.Usuarios
         Task<List<Usuario>> ObterPorTipo(TipoUsuario tipo);
         Task<List<Usuario>> ObterTodos();
         Task Save(Usuario usuario);
+        Task<bool> ValidaCNPJExistente(string? cnpj);
         Task<bool> ValidaCPFExistente(string? cpf);
         Task<bool> ValidaEmailExistente(string email);
         Task<Usuario> ValidaUsuarioLogin(string email, string senhaCoded);

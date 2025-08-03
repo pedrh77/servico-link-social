@@ -2,7 +2,7 @@
 {
     public class NovoBeneficioRequestDTO
     {
-        public int IdUsuario { get; set; }
+        public int UsuarioId { get; set; }
         public string Descricao { get; set; }
         public decimal Valor { get; set; }
 
