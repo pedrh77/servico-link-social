@@ -19,7 +19,6 @@ namespace LinkSocial_Domain.DTO.Request
         public decimal Valor { get; set; }
 
         [Required(ErrorMessage = "O tipo de doação é obrigatório.")]
-        [EnumDataType(typeof(TipoDoacao))]
         public TipoDoacao TipoDoacao { get; set; }
 
         public string? Comentario { get; set; }

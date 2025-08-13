@@ -2,8 +2,8 @@
 {
     public enum TipoDoacao
     {
-        Mensal6x,
-        Mensal12x,
-        Unica
+        Unica = 1,
+        Mensal6x = 2,
+        Mensal12x = 3
     }
 }
