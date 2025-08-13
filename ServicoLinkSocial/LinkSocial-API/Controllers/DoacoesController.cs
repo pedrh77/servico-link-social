@@ -1,6 +1,7 @@
 using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Doacoes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkSocial_API.Controllers
@@ -60,6 +61,7 @@ namespace LinkSocial_API.Controllers
         }
 
         [HttpGet("doador/{doadorId}")]
+        [Authorize(Roles = "Doador")]
         public async Task<IActionResult> BuscarPorDoador(int doadorId)
         {
             try
