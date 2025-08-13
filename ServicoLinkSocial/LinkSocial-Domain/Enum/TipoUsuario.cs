@@ -3,6 +3,6 @@
     public enum TipoUsuario
     {
         Doador = 0,
-        Ong = 1
+        ONG = 1
     }
 }

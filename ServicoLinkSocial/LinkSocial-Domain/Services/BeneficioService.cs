@@ -18,7 +18,7 @@ namespace LinkSocial_Domain.Services
             if (usuario == null || !usuario.Ativo)
                 throw new Exception("ONG não encontrada ou inativa.");
 
-            if (usuario.TipoUsuario != Enum.TipoUsuario.Ong)
+            if (usuario.TipoUsuario != Enum.TipoUsuario.ONG)
                 throw new Exception("Usuário informado não é uma ONG.");
 
             var beneficio = _mapper.Map<Beneficio>(request);

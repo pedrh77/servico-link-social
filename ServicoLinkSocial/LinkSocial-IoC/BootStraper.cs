@@ -23,6 +23,7 @@ namespace LinkSocial_IoC
             DatabaseConfiguration(services, configuration);
             RegisterServices(services);
             RegisterRepositories(services);
+            ConfigureCors(services);
 
             return services;
         }
@@ -96,5 +97,19 @@ namespace LinkSocial_IoC
             services.AddScoped<IDoacaoRepository, DoacaoRepository>();
         }
 
+
+        private static void ConfigureCors(IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+        }
     }
 }
