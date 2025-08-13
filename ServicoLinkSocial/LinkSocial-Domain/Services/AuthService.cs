@@ -26,6 +26,7 @@ namespace LinkSocial_Domain.Services
                     Subject = new ClaimsIdentity(new[]
                     {
                         new Claim(ClaimTypes.Name, usuario.Nome),
+                        new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                         new Claim(ClaimTypes.Role, usuario.TipoUsuario.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddHours(2),
@@ -37,7 +38,7 @@ namespace LinkSocial_Domain.Services
                 return new LoginResponseDTO
                 {
                     Token = tokenHandler.WriteToken(token),
-                    ExpiraEm = tokenDescriptor.Expires.Value
+                    ExpiraEm = tokenDescriptor.Expires.Value,
                 };
             }
             throw new UnauthorizedAccessException("Usuário ou senha inválidos.");

@@ -54,6 +54,23 @@ namespace LinkSocial_API.Controllers
             }
         }
 
+        [HttpGet("Usuario/{id}")]
+        public async Task<IActionResult> BuscaBeneficioPorUsuarioId(int id)
+        {
+            try
+            {
+                var beneficio = await _beneficioService.BuscaBeneficioPorUsuarioIdAsync(id);
+                if (beneficio == null)
+                    return NotFound();
+
+                return Ok(beneficio);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { erro = ex.Message });
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletarBeneficio(int id)
         {

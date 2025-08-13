@@ -49,5 +49,15 @@ namespace LinkSocial_Infra.Repository
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<Beneficio>> ObterBeneficioPorUsuarioId(int id)
+        {
+            return await _context.Beneficos.Where(x => x.UsuarioId == id && x.Deleted == false).ToListAsync();
+        }
+
+        public async Task<List<Beneficio>> ObterPorUsuarioId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
-} 
+}

@@ -55,7 +55,7 @@ namespace LinkSocial_API.Controllers
         }
 
         [HttpGet("tipo/{tipo}")]
-        public async Task<ActionResult<IEnumerable<UsuarioResponseDTO>>> ObterPorTipo([FromBody]TipoUsuario tipo)
+        public async Task<ActionResult<IList<UsuarioResponseDTO>>> ObterPorTipo(TipoUsuario tipo)
         {
             var usuarios = await _usuarioService.ObterPorTipo(tipo);
             return Ok(usuarios);

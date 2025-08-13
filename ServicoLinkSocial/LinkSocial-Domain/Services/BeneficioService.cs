@@ -12,6 +12,24 @@ namespace LinkSocial_Domain.Services
         IUsuarioService _usuarioService,
         IMapper _mapper) : IBeneficioService
     {
+        public async Task<List<BeneficioResponseDTO>> BuscaBeneficioPorUsuarioIdAsync(int id)
+        {
+            var usuario = await _usuarioService.ObterPorId(id);
+            if (usuario == null || !usuario.Ativo)
+                throw new Exception("ONG não encontrada ou inativa.");
+
+
+            if (usuario.TipoUsuario != Enum.TipoUsuario.ONG)
+                throw new Exception("Usuário informado não é uma ONG.");
+
+            List<Beneficio> beneficios = await _beneficioRepository.ObterBeneficioPorUsuarioId(id);
+            if (beneficios == null || beneficios.Count < 1)
+                throw new Exception("Nenhum benefício encontrado para o usuário informado.");
+            var mapped = _mapper.Map<List<BeneficioResponseDTO>>(beneficios);
+            return mapped;
+
+        }
+
         public async Task CadastrarBeneficioAsync(NovoBeneficioRequestDTO request)
         {
             var usuario = await _usuarioService.ObterPorId(request.UsuarioId);
