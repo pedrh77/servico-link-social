@@ -2,6 +2,7 @@
 using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.DTO.Response;
 using LinkSocial_Domain.Interfaces.Beneficios;
+using LinkSocial_Domain.Interfaces.Doacoes;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Models;
 
@@ -9,6 +10,7 @@ namespace LinkSocial_Domain.Services
 {
     public class BeneficioService(
         IBeneficioRepository _beneficioRepository,
+        IDoacaoRepository _doacaoRepository,
         IUsuarioService _usuarioService,
         IMapper _mapper) : IBeneficioService
     {
@@ -66,6 +68,17 @@ namespace LinkSocial_Domain.Services
                 return null;
 
             return _mapper.Map<BeneficioResponseDTO>(beneficio);
+        }
+
+        public async Task<List<object>> ObterValoresArrecadadosporBeneficio(int id)
+        {
+           var valores = _doacaoRepository.ObterValoresArrecadadosporBeneficio(id);
+
+
+
+            if (valores == null || valores.Count < 1)
+                throw new Exception("Nenhum valor arrecadado encontrado para o benefício informado.");
+            return Task.FromResult(valores);
         }
     }
 }

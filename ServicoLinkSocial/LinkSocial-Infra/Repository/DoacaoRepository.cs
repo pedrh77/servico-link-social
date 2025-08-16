@@ -1,6 +1,6 @@
+using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Doacoes;
 using LinkSocial_Domain.Models;
-using LinkSocial_Domain.Enum;
 using LinkSocial_Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -101,6 +101,10 @@ namespace LinkSocial_Infra.Repository
                 .ToListAsync();
         }
 
-       
+        public async Task<List<Doacao>> ObterValoresArrecadadosporBeneficio(int id)
+        {
+            return await _context.Doacoes.Where(d => (d.StatusPagamento == StatusPagamento.Aprovado || d.StatusPagamento == StatusPagamento.Pago) && d.BeneficioId == id && d.Deleted == false)
+                .ToListAsync();
+        }
     }
-} 
+}

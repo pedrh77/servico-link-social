@@ -14,5 +14,6 @@ namespace LinkSocial_Domain.Interfaces.Doacoes
         Task<bool> DeletarAsync(int id);
         Task<bool> AtualizarStatusPagamentoAsync(int id, StatusPagamento status);
         Task<List<Doacao>> ObterPorOngAsync(int ongId);
+        Task<List<Doacao>> ObterValoresArrecadadosporBeneficio(int id);
     }
 } 

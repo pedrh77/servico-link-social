@@ -10,5 +10,6 @@ namespace LinkSocial_Domain.Interfaces.Beneficios
         Task<bool> DeletarBeneficioAsync(int id);
         Task<List<BeneficioResponseDTO>> ListarBeneficiosAsync();
         Task<BeneficioResponseDTO?> ObterBeneficioPorIdAsync(int id);
+        Task ObterValoresArrecadadosporBeneficio(int id);
     }
 }
