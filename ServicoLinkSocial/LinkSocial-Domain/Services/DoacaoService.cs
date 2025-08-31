@@ -3,6 +3,7 @@ using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.DTO.Response;
 using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Beneficios;
+using LinkSocial_Domain.Interfaces.Carteiras;
 using LinkSocial_Domain.Interfaces.Doacoes;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Models;
@@ -15,17 +16,19 @@ namespace LinkSocial_Domain.Services
         private readonly IUsuarioService _usuarioService;
         private readonly IBeneficioService _beneficioService;
         private readonly IMapper _mapper;
+        private readonly ICarteiraService _carteira;
 
         public DoacaoService(
             IDoacaoRepository doacaoRepository,
             IUsuarioService usuarioService,
             IBeneficioService beneficioService,
-            IMapper mapper)
+            IMapper mapper, ICarteiraService carteiraService)
         {
             _doacaoRepository = doacaoRepository;
             _usuarioService = usuarioService;
             _beneficioService = beneficioService;
             _mapper = mapper;
+            _carteira = carteiraService;
         }
 
         public async Task<DoacaoResponseDTO> CadastrarDoacaoAsync(NovaDoacaoRequestDTO request)
@@ -49,6 +52,10 @@ namespace LinkSocial_Domain.Services
             doacao.StatusPagamento = StatusPagamento.Pendente;
 
             var doacaoCriada = await _doacaoRepository.AdicionarAsync(doacao);
+
+            await _carteira.AdicionarTransacao(doador.Id, null, TipoTransacao.Credito, doacao.Valor * 2);
+
+
             return _mapper.Map<DoacaoResponseDTO>(doacao);
         }
 

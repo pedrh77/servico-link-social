@@ -3,6 +3,7 @@ using System;
 using LinkSocial_Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LinkSocial_Infra.Migrations
 {
     [DbContext(typeof(LinkSocialDbContext))]
-    partial class LinkSocialDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250831192527_AdicionandoCarteiraeTransacao-receiver")]
+    partial class AdicionandoCarteiraeTransacaoreceiver
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,19 +36,10 @@ namespace LinkSocial_Infra.Migrations
                     b.Property<int>("CarteiraId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Criado_em")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime>("Data")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("Modificado_em")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("ReceiverId")
+                    b.Property<int>("ReceiverId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Tipo")
@@ -166,7 +160,7 @@ namespace LinkSocial_Infra.Migrations
                     b.Property<int>("TipoDoacao")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Valor")
+                    b.Property<decimal>("ValorParcela")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
@@ -239,7 +233,9 @@ namespace LinkSocial_Infra.Migrations
 
                     b.HasOne("LinkSocial_Domain.Models.Usuario", "Receiver")
                         .WithMany()
-                        .HasForeignKey("ReceiverId");
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Receiver");
                 });

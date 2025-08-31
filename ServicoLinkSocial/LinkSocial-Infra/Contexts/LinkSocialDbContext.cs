@@ -1,4 +1,5 @@
-﻿using LinkSocial_Domain.Models;
+﻿using LinkSocial_Domain.Enum;
+using LinkSocial_Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinkSocial_Infra.Contexts
@@ -10,7 +11,10 @@ namespace LinkSocial_Infra.Contexts
 
         }
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Beneficio> Beneficos { get; set; }
+        public DbSet<Beneficio> Beneficios { get; set; }
         public DbSet<Doacao> Doacoes { get; set; }
+
+        public DbSet<Carteira> Carteiras { get; set; }
+        public DbSet<Transacao> Transacoes { get; set; }
     }
 }

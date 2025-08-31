@@ -16,12 +16,12 @@ namespace LinkSocial_Infra.Repository
 
         public async Task<Beneficio> ObterPorId(int id)
         {
-            return await _context.Beneficos.FirstOrDefaultAsync(b => b.Id == id);
+            return await _context.Beneficios.FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<List<Beneficio>> ObterTodos()
         {
-            return await _context.Beneficos
+            return await _context.Beneficios
                 .Include(b => b.Usuario)
                 .OrderByDescending(b => b.Criado_em)
                 .ToListAsync();
@@ -35,7 +35,7 @@ namespace LinkSocial_Infra.Repository
             }
             else
             {
-                _context.Beneficos.Update(beneficio);
+                _context.Beneficios.Update(beneficio);
             }
 
             await _context.SaveChangesAsync();
@@ -45,14 +45,14 @@ namespace LinkSocial_Infra.Repository
         {
             if (beneficio is Beneficio beneficioEntity)
             {
-                _context.Beneficos.Remove(beneficioEntity);
+                _context.Beneficios.Remove(beneficioEntity);
                 await _context.SaveChangesAsync();
             }
         }
 
         public async Task<List<Beneficio>> ObterBeneficioPorUsuarioId(int id)
         {
-            return await _context.Beneficos.Where(x => x.UsuarioId == id && x.Deleted == false).ToListAsync();
+            return await _context.Beneficios.Where(x => x.UsuarioId == id && x.Deleted == false).ToListAsync();
         }
 
         public async Task<List<Beneficio>> ObterPorUsuarioId(int id)

@@ -17,7 +17,7 @@ namespace LinkSocial_Domain.Models
         public Beneficio Beneficio { get; set; }
 
 
-        public decimal ValorParcela { get; set; }
+        public decimal Valor { get; set; }
         public TipoDoacao TipoDoacao { get; set; }
 
         public StatusPagamento StatusPagamento { get; set; } = StatusPagamento.Pendente;

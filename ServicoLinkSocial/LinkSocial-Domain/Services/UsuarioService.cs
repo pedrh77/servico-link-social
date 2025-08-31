@@ -3,12 +3,13 @@ using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.DTO.Response;
 using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces;
+using LinkSocial_Domain.Interfaces.Carteiras;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Models;
 
 namespace LinkSocial_Domain.Services
 {
-    public class UsuarioService(IUsuarioRepository _usuarioRepository, IMapper _mapper, IMd5HashService _md5HashService) : IUsuarioService
+    public class UsuarioService(IUsuarioRepository _usuarioRepository, IMapper _mapper, ICarteiraService _carteira, IMd5HashService _md5HashService) : IUsuarioService
     {
         public async Task<bool> AtualizarUsuario(int id, NovoUsuarioRequestDTO request)
         {
@@ -49,6 +50,7 @@ namespace LinkSocial_Domain.Services
             var usuarios = await _usuarioRepository.ObterTodos();
             return _mapper.Map<List<UsuarioResponseDTO>>(usuarios);
         }
+
         public async Task RegistraUsuario(NovoUsuarioRequestDTO request)
         {
             if (request.TipoUsuario == TipoUsuario.Doador)
@@ -69,7 +71,14 @@ namespace LinkSocial_Domain.Services
 
             usuario.SenhaHash = await _md5HashService.GerarHashMd5(request.Senha);
 
+            usuario.Criado_em = DateTime.UtcNow;
             await _usuarioRepository.Save(usuario);
+
+            if (usuario.TipoUsuario != TipoUsuario.Doador) return;
+
+
+            await _carteira.GerarCarteiraUsuario(usuario.Id);
+
         }
 
         public async Task<Usuario> ValidaDadosLoginUsario(LoginRequestDTO login)
