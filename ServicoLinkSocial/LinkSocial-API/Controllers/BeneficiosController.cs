@@ -28,8 +28,7 @@ namespace LinkSocial_API.Controllers
         {
             try
             {
-                await _beneficioService.ListarBeneficiosAsync();
-                return Ok();
+                return Ok(await _beneficioService.ListarBeneficiosAsync());
             }
             catch (Exception ex)
             {
