@@ -53,23 +53,7 @@ namespace LinkSocial_API.Controllers
             }
         }
 
-        [HttpGet("valores/{id}")]
-        public async Task<IActionResult> BuscarValorArrecadadoporBeneficio(int id)
-        {
-
-
-            try
-            {
-                var valores = await _beneficioService.ObterValoresArrecadadosporBeneficio(id);
-                if (valores == null) return NotFound();
-                return Ok(valores);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, new { erro = ex.Message });
-            }
-        }
+       
 
         [HttpGet("Usuario/{id}")]
         public async Task<IActionResult> BuscaBeneficioPorUsuarioId(int id)

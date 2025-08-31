@@ -70,15 +70,6 @@ namespace LinkSocial_Domain.Services
             return _mapper.Map<BeneficioResponseDTO>(beneficio);
         }
 
-        public async Task<List<object>> ObterValoresArrecadadosporBeneficio(int id)
-        {
-           var valores = _doacaoRepository.ObterValoresArrecadadosporBeneficio(id);
 
-
-
-            if (valores == null || valores.Count < 1)
-                throw new Exception("Nenhum valor arrecadado encontrado para o benefício informado.");
-            return Task.FromResult(valores);
-        }
     }
 }

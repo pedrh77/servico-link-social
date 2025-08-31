@@ -2,9 +2,9 @@ using AutoMapper;
 using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.DTO.Response;
 using LinkSocial_Domain.Enum;
+using LinkSocial_Domain.Interfaces.Beneficios;
 using LinkSocial_Domain.Interfaces.Doacoes;
 using LinkSocial_Domain.Interfaces.Usuarios;
-using LinkSocial_Domain.Interfaces.Beneficios;
 using LinkSocial_Domain.Models;
 
 namespace LinkSocial_Domain.Services
@@ -49,7 +49,7 @@ namespace LinkSocial_Domain.Services
             doacao.StatusPagamento = StatusPagamento.Pendente;
 
             var doacaoCriada = await _doacaoRepository.AdicionarAsync(doacao);
-            return await MapearParaResponseDTO(doacaoCriada);
+            return _mapper.Map<DoacaoResponseDTO>(doacao);
         }
 
         public async Task<DoacaoResponseDTO?> ObterPorIdAsync(int id)
@@ -57,46 +57,29 @@ namespace LinkSocial_Domain.Services
             var doacao = await _doacaoRepository.ObterPorIdAsync(id);
             if (doacao == null) return null;
 
-            return await MapearParaResponseDTO(doacao);
+            var response = _mapper.Map<DoacaoResponseDTO>(doacao);
+            return response;
         }
 
         public async Task<List<DoacaoResponseDTO>> ObterTodasAsync()
         {
             var doacoes = await _doacaoRepository.ObterTodasAsync();
-            var responseList = new List<DoacaoResponseDTO>();
-
-            foreach (var doacao in doacoes)
-            {
-                responseList.Add(await MapearParaResponseDTO(doacao));
-            }
-
-            return responseList;
+            var response = _mapper.Map<List<DoacaoResponseDTO>>(doacoes);
+            return response;
         }
 
         public async Task<List<DoacaoResponseDTO>> ObterPorDoadorAsync(int doadorId)
         {
             var doacoes = await _doacaoRepository.ObterPorDoadorAsync(doadorId);
-            var responseList = new List<DoacaoResponseDTO>();
-
-            foreach (var doacao in doacoes)
-            {
-                responseList.Add(await MapearParaResponseDTO(doacao));
-            }
-
-            return responseList;
+            var response = _mapper.Map<List<DoacaoResponseDTO>>(doacoes);
+            return response;
         }
 
         public async Task<List<DoacaoResponseDTO>> ObterPorBeneficioAsync(int beneficioId)
         {
             var doacoes = await _doacaoRepository.ObterPorBeneficioAsync(beneficioId);
-            var responseList = new List<DoacaoResponseDTO>();
-
-            foreach (var doacao in doacoes)
-            {
-                responseList.Add(await MapearParaResponseDTO(doacao));
-            }
-
-            return responseList;
+            var response = _mapper.Map<List<DoacaoResponseDTO>>(doacoes);
+            return response;
         }
 
         public async Task<bool> AtualizarDoacaoAsync(int id, NovaDoacaoRequestDTO request)
@@ -136,28 +119,13 @@ namespace LinkSocial_Domain.Services
         public async Task<List<DoacaoResponseDTO>> ObterPorOngAsync(int ongId)
         {
             var doacoes = await _doacaoRepository.ObterPorOngAsync(ongId);
-            var responseList = new List<DoacaoResponseDTO>();
 
-            foreach (var doacao in doacoes)
-            {
-                responseList.Add(await MapearParaResponseDTO(doacao));
-            }
 
-            return responseList;
-        }
-
-        private async Task<DoacaoResponseDTO> MapearParaResponseDTO(Doacao doacao)
-        {
-            var doador = await _usuarioService.ObterPorId(doacao.DoadorId);
-            var ong = await _usuarioService.ObterPorId(doacao.OngId);
-            var beneficio = await _beneficioService.ObterBeneficioPorIdAsync(doacao.BeneficioId);
-
-            var response = _mapper.Map<DoacaoResponseDTO>(doacao);
-            response.NomeDoador = doador?.Nome ?? "Doador não encontrado";
-            response.NomeOng = ong?.Nome ?? "ONG não encontrada";
-            response.DescricaoBeneficio = beneficio?.Descricao ?? "Benefício não encontrado";
+            var response = _mapper.Map<List<DoacaoResponseDTO>>(doacoes);
 
             return response;
         }
+
+
     }
-} 
+}
