@@ -1,5 +1,4 @@
-﻿using LinkSocial_Domain.Enum;
-using LinkSocial_Domain.Models;
+﻿using LinkSocial_Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinkSocial_Infra.Contexts

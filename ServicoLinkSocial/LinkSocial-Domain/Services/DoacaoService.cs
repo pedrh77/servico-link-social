@@ -53,7 +53,17 @@ namespace LinkSocial_Domain.Services
 
             var doacaoCriada = await _doacaoRepository.AdicionarAsync(doacao);
 
-            await _carteira.AdicionarTransacao(doador.Id, null, TipoTransacao.Credito, doacao.Valor * 2);
+
+            var transacao = new NovaTransacaoRequestDTO()
+            {
+                DoadorId = doador.Id,
+                Valor = doacao.Valor * 2,
+                Tipo = TipoTransacao.Credito,
+                EmpresaId = null
+            };
+
+
+            await _carteira.AdicionarTransacao(transacao);
 
 
             return _mapper.Map<DoacaoResponseDTO>(doacao);

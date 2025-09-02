@@ -41,6 +41,16 @@ namespace LinkSocial_Domain.Services
             if (usuario.TipoUsuario != Enum.TipoUsuario.ONG)
                 throw new Exception("Usuário informado não é uma ONG.");
 
+            var beneficios = await _beneficioRepository.ObterBeneficioPorUsuarioId(request.UsuarioId);
+
+            if (beneficios != null)
+            {
+                var beneficioExistente = beneficios.FirstOrDefault(b => b.Valor == request.Valor);
+                if (beneficioExistente != null)
+                    throw new Exception("Benefício com o mesmo valor já cadastrado para esta ONG.");
+            }
+
+
             var beneficio = _mapper.Map<Beneficio>(request);
             await _beneficioRepository.Save(beneficio);
         }
