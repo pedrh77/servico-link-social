@@ -2,7 +2,6 @@ using AutoMapper;
 using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.DTO.Response;
 using LinkSocial_Domain.Enum;
-using LinkSocial_Domain.Interfaces.Beneficios;
 using LinkSocial_Domain.Interfaces.Carteiras;
 using LinkSocial_Domain.Interfaces.Doacoes;
 using LinkSocial_Domain.Interfaces.Usuarios;
@@ -10,62 +9,72 @@ using LinkSocial_Domain.Models;
 
 namespace LinkSocial_Domain.Services
 {
-    public class DoacaoService : IDoacaoService
+    public class DoacaoService(IDoacaoRepository _doacaoRepository, IUsuarioService _usuarioService, IMapper _mapper, ICarteiraService _carteira) : IDoacaoService
     {
-        private readonly IDoacaoRepository _doacaoRepository;
-        private readonly IUsuarioService _usuarioService;
-        private readonly IBeneficioService _beneficioService;
-        private readonly IMapper _mapper;
-        private readonly ICarteiraService _carteira;
-
-        public DoacaoService(
-            IDoacaoRepository doacaoRepository,
-            IUsuarioService usuarioService,
-            IBeneficioService beneficioService,
-            IMapper mapper, ICarteiraService carteiraService)
-        {
-            _doacaoRepository = doacaoRepository;
-            _usuarioService = usuarioService;
-            _beneficioService = beneficioService;
-            _mapper = mapper;
-            _carteira = carteiraService;
-        }
 
         public async Task<DoacaoResponseDTO> CadastrarDoacaoAsync(NovaDoacaoRequestDTO request)
         {
-            // Validar se o doador existe
             var doador = await _usuarioService.ObterPorId(request.DoadorId);
             if (doador == null)
                 throw new ArgumentException("Doador não encontrado.");
 
-            // Validar se a ONG existe
             var ong = await _usuarioService.ObterPorId(request.OngId);
             if (ong == null)
                 throw new ArgumentException("ONG não encontrada.");
 
-            // Validar se o benefício existe
-            var beneficio = await _beneficioService.ObterBeneficioPorIdAsync(request.BeneficioId);
-            if (beneficio == null)
-                throw new ArgumentException("Benefício não encontrado.");
-
             var doacao = _mapper.Map<Doacao>(request);
-            doacao.StatusPagamento = StatusPagamento.Pendente;
+
+            if (request.PagamentoParcela == true)
+            {
+                var doacaoExistente = await _doacaoRepository.BuscaDoacaoPorValorUsuario(request.DoadorId, request.Valor, request.OngId);
+
+                if (doacaoExistente == null)
+                    throw new ArgumentException("Nenhuma doação encontrada para continuar o parcelamento.");
+
+
+                int proximaParcela = doacaoExistente.NumeroParcela + 1;
+                if (proximaParcela > doacaoExistente.TotalParcelas)
+                    throw new Exception("Todas as parcelas já foram pagas.");
+
+                doacao = new Doacao
+                {
+                    DoadorId = request.DoadorId,
+                    OngId = request.OngId,
+                    Valor = request.Valor,
+                    StatusPagamento = StatusPagamento.Pendente,
+                    TotalParcelas = doacaoExistente.TotalParcelas,
+                    NumeroParcela = proximaParcela
+                };
+            }
+            else
+            {
+                int totalParcelas = request.TipoDoacao switch
+                {
+                    TipoDoacao.Unica => 1,
+                    TipoDoacao.Mensal6x => 6,
+                    TipoDoacao.Mensal12x => 12
+                };
+
+                doacao = _mapper.Map<Doacao>(request);
+                doacao.StatusPagamento = StatusPagamento.Pendente;
+                doacao.TotalParcelas = totalParcelas;
+                doacao.NumeroParcela = 1;
+                doacao.Criado_em = DateTime.UtcNow;
+            }
 
             var doacaoCriada = await _doacaoRepository.AdicionarAsync(doacao);
-
 
             var transacao = new NovaTransacaoRequestDTO()
             {
                 DoadorId = doador.Id,
                 Valor = doacao.Valor * 2,
                 Tipo = TipoTransacao.Credito,
-                EmpresaId = null
+                EmpresaId = null,
+
             };
 
 
             await _carteira.AdicionarTransacao(transacao);
-
-
             return _mapper.Map<DoacaoResponseDTO>(doacao);
         }
 
@@ -92,32 +101,21 @@ namespace LinkSocial_Domain.Services
             return response;
         }
 
-        public async Task<List<DoacaoResponseDTO>> ObterPorBeneficioAsync(int beneficioId)
-        {
-            var doacoes = await _doacaoRepository.ObterPorBeneficioAsync(beneficioId);
-            var response = _mapper.Map<List<DoacaoResponseDTO>>(doacoes);
-            return response;
-        }
+
 
         public async Task<bool> AtualizarDoacaoAsync(int id, NovaDoacaoRequestDTO request)
         {
             var doacao = await _doacaoRepository.ObterPorIdAsync(id);
             if (doacao == null) return false;
 
-            // Validar se o doador existe
             var doador = await _usuarioService.ObterPorId(request.DoadorId);
             if (doador == null)
                 throw new ArgumentException("Doador não encontrado.");
 
-            // Validar se a ONG existe
             var ong = await _usuarioService.ObterPorId(request.OngId);
             if (ong == null)
                 throw new ArgumentException("ONG não encontrada.");
 
-            // Validar se o benefício existe
-            var beneficio = await _beneficioService.ObterBeneficioPorIdAsync(request.BeneficioId);
-            if (beneficio == null)
-                throw new ArgumentException("Benefício não encontrado.");
 
             _mapper.Map(request, doacao);
             return await _doacaoRepository.AtualizarAsync(doacao);

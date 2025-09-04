@@ -9,8 +9,6 @@ namespace LinkSocial_Domain.DTO.Response
         public string? NomeDoador { get; set; }
         public int OngId { get; set; }
         public string NomeOng { get; set; }
-        public int BeneficioId { get; set; }
-        public string DescricaoBeneficio { get; set; }
         public decimal Valor { get; set; }
         public TipoDoacao TipoDoacao { get; set; }
         public DateTime CriadoEm { get; set; }

@@ -13,10 +13,6 @@ namespace LinkSocial_API.Profiles
             CreateMap<Usuario, UsuarioResponseDTO>();
 
 
-            CreateMap<NovoBeneficioRequestDTO, Beneficio>();
-            CreateMap<Beneficio, BeneficioResponseDTO>()
-                .ForMember(dest => dest.OngId, opt => opt.MapFrom(src => src.UsuarioId));
-
             CreateMap<NovaDoacaoRequestDTO, Doacao>();
             CreateMap<Doacao, DoacaoResponseDTO>();
 

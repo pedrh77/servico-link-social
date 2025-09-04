@@ -6,6 +6,7 @@ namespace LinkSocial_Domain.Enum
         Aprovado,
         Rejeitado,
         Pago,
-        Cancelado
+        Cancelado,
+        Concluido
     }
 } 

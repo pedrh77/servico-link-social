@@ -13,17 +13,15 @@ namespace LinkSocial_Domain.Models
         public int OngId { get; set; }
         public Usuario Ong { get; set; }
 
-        public int BeneficioId { get; set; }
-        public Beneficio Beneficio { get; set; }
-
-
         public decimal Valor { get; set; }
+
         public TipoDoacao TipoDoacao { get; set; }
+
+        public int NumeroParcela { get; set; } = 1; 
+        public int TotalParcelas { get; set; } = 1; 
 
         public StatusPagamento StatusPagamento { get; set; } = StatusPagamento.Pendente;
         public string? Comentario { get; set; }
-
-        public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
 
     }
 

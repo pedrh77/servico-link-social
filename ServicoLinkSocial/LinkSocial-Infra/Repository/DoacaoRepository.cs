@@ -6,14 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LinkSocial_Infra.Repository
 {
-    public class DoacaoRepository : IDoacaoRepository
+    public class DoacaoRepository(LinkSocialDbContext _context) : IDoacaoRepository
     {
-        private readonly LinkSocialDbContext _context;
-
-        public DoacaoRepository(LinkSocialDbContext context)
-        {
-            _context = context;
-        }
 
         public async Task<Doacao> AdicionarAsync(Doacao doacao)
         {
@@ -27,7 +21,6 @@ namespace LinkSocial_Infra.Repository
             return await _context.Doacoes
                 .Include(d => d.Doador)
                 .Include(d => d.Ong)
-                .Include(d => d.Beneficio)
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 
@@ -36,7 +29,6 @@ namespace LinkSocial_Infra.Repository
             return await _context.Doacoes
                 .Include(d => d.Doador)
                 .Include(d => d.Ong)
-                .Include(d => d.Beneficio)
                 .OrderByDescending(d => d.Criado_em)
                 .ToListAsync();
         }
@@ -46,22 +38,12 @@ namespace LinkSocial_Infra.Repository
             return await _context.Doacoes
                 .Include(d => d.Doador)
                 .Include(d => d.Ong)
-                .Include(d => d.Beneficio)
                 .Where(d => d.DoadorId == doadorId)
                 .OrderByDescending(d => d.Criado_em)
                 .ToListAsync();
         }
 
-        public async Task<List<Doacao>> ObterPorBeneficioAsync(int beneficioId)
-        {
-            return await _context.Doacoes
-                .Include(d => d.Doador)
-                .Include(d => d.Ong)
-                .Include(d => d.Beneficio)
-                .Where(d => d.BeneficioId == beneficioId)
-                .OrderByDescending(d => d.Criado_em)
-                .ToListAsync();
-        }
+
 
         public async Task<bool> AtualizarAsync(Doacao doacao)
         {
@@ -95,16 +77,16 @@ namespace LinkSocial_Infra.Repository
             return await _context.Doacoes
                 .Include(d => d.Doador)
                 .Include(d => d.Ong)
-                .Include(d => d.Beneficio)
                 .Where(d => d.OngId == ongId)
                 .OrderByDescending(d => d.Criado_em)
                 .ToListAsync();
         }
 
-        public async Task<List<Doacao>> ObterValoresArrecadadosporBeneficio(int id)
+        public async Task<Doacao> BuscaDoacaoPorValorUsuario(int doadorId, decimal valor, int ongId)
         {
-            return await _context.Doacoes.Where(d => (d.StatusPagamento == StatusPagamento.Aprovado || d.StatusPagamento == StatusPagamento.Pago) && d.BeneficioId == id && d.Deleted == false)
-                .ToListAsync();
+            return await _context.Doacoes.Where(x => x.DoadorId == doadorId
+               && x.Valor == valor && x.OngId == ongId)
+      .OrderByDescending(x => x.Modificado_em ).FirstOrDefaultAsync();
         }
     }
 }

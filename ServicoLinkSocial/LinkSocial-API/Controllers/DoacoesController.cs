@@ -75,19 +75,7 @@ namespace LinkSocial_API.Controllers
             }
         }
 
-        [HttpGet("beneficio/{beneficioId}")]
-        public async Task<IActionResult> BuscarPorBeneficio(int beneficioId)
-        {
-            try
-            {
-                var doacoes = await _doacaoService.ObterPorBeneficioAsync(beneficioId);
-                return Ok(doacoes);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { erro = ex.Message });
-            }
-        }
+       
 
         [HttpGet("ong/{ongId}")]
         public async Task<IActionResult> BuscarPorOng(int ongId)
