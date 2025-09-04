@@ -14,7 +14,12 @@ namespace LinkSocial_API.Profiles
 
 
             CreateMap<NovaDoacaoRequestDTO, Doacao>();
-            CreateMap<Doacao, DoacaoResponseDTO>();
+            CreateMap<Doacao, DoacaoResponseDTO>()
+     .ForMember(dest => dest.NomeDoador,
+         opt => opt.MapFrom(src => src.Anonima ? null : src.Doador.Nome))
+     .ForMember(dest => dest.NomeDoador,
+         opt => opt.MapFrom(src => src.Anonima));
+
 
 
             CreateMap<NovaTransacaoRequestDTO, Transacao>().ForMember(dest=>dest.ReceiverId, opt=>opt.MapFrom(src=>src.EmpresaId));

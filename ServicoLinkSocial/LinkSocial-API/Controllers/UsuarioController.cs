@@ -35,7 +35,7 @@ namespace LinkSocial_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> AtualizarUsuario(int id, [FromBody] NovoUsuarioRequestDTO request)
+        public async Task<IActionResult> AtualizarUsuario(int id, [FromBody] AtualizaDadosUsuarioRequestDTO request)
         {
             var atualizado = await _usuarioService.AtualizarUsuario(id, request);
             if (!atualizado)

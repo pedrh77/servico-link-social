@@ -32,5 +32,6 @@ namespace LinkSocial_Domain.DTO.Request
         [Compare("Senha", ErrorMessage = "As senhas não coincidem.")]
         public string ConfirmaSenha { get; set; }
 
+
     }
 }

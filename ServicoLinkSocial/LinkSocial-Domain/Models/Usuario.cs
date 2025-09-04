@@ -13,6 +13,7 @@ namespace LinkSocial_Domain.Models
         public TipoUsuario TipoUsuario { get; set; }
         public string? SenhaHash { get; set; }
         public bool Ativo { get; set; } = true;
+        public string? Comentario { get; set; } = null;
 
     }
 }

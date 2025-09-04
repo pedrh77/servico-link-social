@@ -6,7 +6,6 @@ namespace LinkSocial_Domain.Models
     {
         public int Id { get; set; }
 
-        // Relacionamentos
         public int DoadorId { get; set; }
         public Usuario Doador { get; set; }
 
@@ -21,6 +20,7 @@ namespace LinkSocial_Domain.Models
         public int TotalParcelas { get; set; } = 1; 
 
         public StatusPagamento StatusPagamento { get; set; } = StatusPagamento.Pendente;
+        public bool Anonima { get; set; } = false;
         public string? Comentario { get; set; }
 
     }

@@ -11,7 +11,7 @@ namespace LinkSocial_Domain.Services
 {
     public class UsuarioService(IUsuarioRepository _usuarioRepository, IMapper _mapper, ICarteiraService _carteira, IMd5HashService _md5HashService) : IUsuarioService
     {
-        public async Task<bool> AtualizarUsuario(int id, NovoUsuarioRequestDTO request)
+        public async Task<bool> AtualizarUsuario(int id, AtualizaDadosUsuarioRequestDTO request)
         {
             throw new NotImplementedException();
         }
