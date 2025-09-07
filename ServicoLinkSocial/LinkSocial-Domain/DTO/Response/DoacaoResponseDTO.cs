@@ -13,6 +13,7 @@ namespace LinkSocial_Domain.DTO.Response
         public TipoDoacao TipoDoacao { get; set; }
         public DateTime CriadoEm { get; set; }
         public StatusPagamento StatusPagamento { get; set; }
+        public bool Anonima { get; set; } = false;
         public string? Comentario { get; set; }
     }
 } 
