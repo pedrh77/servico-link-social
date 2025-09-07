@@ -11,6 +11,9 @@ namespace LinkSocial_API.Profiles
         {
             CreateMap<NovoUsuarioRequestDTO, Usuario>();
             CreateMap<Usuario, UsuarioResponseDTO>();
+            CreateMap<AtualizaDadosUsuarioRequestDTO, Usuario>().ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Nome))
+                .ForMember(dest => dest.Telefone, opt => opt.MapFrom(src => src.Telefone))
+                .ForMember(dest => dest.Comentario, opt => opt.MapFrom(src => src.Comentario));
 
 
             CreateMap<NovaDoacaoRequestDTO, Doacao>();
@@ -22,7 +25,7 @@ namespace LinkSocial_API.Profiles
 
 
 
-            CreateMap<NovaTransacaoRequestDTO, Transacao>().ForMember(dest=>dest.ReceiverId, opt=>opt.MapFrom(src=>src.EmpresaId));
+            CreateMap<NovaTransacaoRequestDTO, Transacao>().ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.EmpresaId));
             CreateMap<Transacao, TransacaoResponseDTO>();
 
         }

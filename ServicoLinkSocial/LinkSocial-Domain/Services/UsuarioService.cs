@@ -9,18 +9,23 @@ using LinkSocial_Domain.Models;
 
 namespace LinkSocial_Domain.Services
 {
-    public class UsuarioService(IUsuarioRepository _usuarioRepository, IMapper _mapper, ICarteiraService _carteira, IMd5HashService _md5HashService) : IUsuarioService
+    public class UsuarioService(IUsuarioRepository _usuarioRepository, IMapper _mapper, ICarteiraService _carteiraService, IMd5HashService _md5HashService) : IUsuarioService
     {
-        public async Task<bool> AtualizarUsuario(int id, AtualizaDadosUsuarioRequestDTO request)
+        public async Task AtualizarUsuario(int id, AtualizaDadosUsuarioRequestDTO request)
         {
-            throw new NotImplementedException();
+            var usuario = await _usuarioRepository.ObterPorId(id);
+            if (usuario == null)
+                throw new InvalidOperationException("Usuario Não Encontrado.");
+
+         usuario =    _mapper.Map(request, usuario);
+            await _usuarioRepository.AtualizaDadosUsuario(usuario);
+
         }
 
         public async Task<bool> DeletarUsuario(int id)
         {
             var usuario = await _usuarioRepository.ObterPorId(id);
-            if (usuario == null)
-                return false;
+            if (usuario == null) throw new InvalidOperationException("Usuario Não Encontrado.");
 
             usuario.Deleted = true;
             usuario.Ativo = false;
@@ -34,7 +39,7 @@ namespace LinkSocial_Domain.Services
         {
             var usuario = await _usuarioRepository.ObterPorId(id);
             if (usuario == null)
-                return null;
+                throw new InvalidOperationException("Usuario Não Encontrado.");
 
             return usuario;
         }
@@ -77,7 +82,7 @@ namespace LinkSocial_Domain.Services
             if (usuario.TipoUsuario != TipoUsuario.Doador) return;
 
 
-            await _carteira.GerarCarteiraUsuario(usuario.Id);
+            await _carteiraService.GerarCarteiraUsuario(usuario.Id);
 
         }
 

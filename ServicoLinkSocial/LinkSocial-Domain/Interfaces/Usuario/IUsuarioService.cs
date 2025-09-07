@@ -7,7 +7,7 @@ namespace LinkSocial_Domain.Interfaces.Usuarios
 {
     public interface IUsuarioService
     {
-        Task<bool> AtualizarUsuario(int id, AtualizaDadosUsuarioRequestDTO request);
+        Task AtualizarUsuario(int id, AtualizaDadosUsuarioRequestDTO request);
         Task<bool> DeletarUsuario(int id);
         Task<Usuario> ObterPorId(int id);
         Task<List<UsuarioResponseDTO>> ObterPorTipo(TipoUsuario tipo);

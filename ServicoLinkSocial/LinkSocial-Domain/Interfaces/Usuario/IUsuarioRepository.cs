@@ -1,11 +1,11 @@
-﻿
-using LinkSocial_Domain.Enum;
+﻿using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Models;
 
 namespace LinkSocial_Domain.Interfaces.Usuarios
 {
     public interface IUsuarioRepository
     {
+        Task AtualizaDadosUsuario(Usuario request);
         Task<Usuario> ObterPorId(int id);
         Task<List<Usuario>> ObterPorTipo(TipoUsuario tipo);
         Task<List<Usuario>> ObterTodos();

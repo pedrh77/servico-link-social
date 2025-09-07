@@ -1,4 +1,5 @@
-﻿using LinkSocial_Domain.Enum;
+﻿using LinkSocial_Domain.DTO.Request;
+using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Models;
 using LinkSocial_Infra.Contexts;
@@ -69,6 +70,10 @@ namespace LinkSocial_Infra.Repository
                 .ToListAsync();
         }
 
-
+        public async  Task AtualizaDadosUsuario(Usuario request)
+        {
+            _context.Update(request);
+            _context.SaveChangesAsync();
+        }
     }
 }

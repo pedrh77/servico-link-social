@@ -37,11 +37,8 @@ namespace LinkSocial_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> AtualizarUsuario(int id, [FromBody] AtualizaDadosUsuarioRequestDTO request)
         {
-            var atualizado = await _usuarioService.AtualizarUsuario(id, request);
-            if (!atualizado)
-                return NotFound();
-
-            return NoContent();
+            await _usuarioService.AtualizarUsuario(id, request);
+           return  Ok();
         }
 
         [HttpDelete("{id}")]

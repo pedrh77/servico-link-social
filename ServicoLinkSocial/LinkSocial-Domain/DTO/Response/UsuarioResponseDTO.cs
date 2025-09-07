@@ -13,7 +13,7 @@ namespace LinkSocial_Domain.DTO.Response
         public string? Cpf { get; set; }
         public string? Cnpj { get; set; }
         public TipoUsuario TipoUsuario { get; set; }
-
+        public string? Comentario { get; set; }
         public bool Ativo { get; set; }
     }
 }

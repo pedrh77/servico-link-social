@@ -17,7 +17,7 @@ namespace LinkSocial_API.Controllers
             try
             {
                 var doacao = await _doacaoService.CadastrarDoacaoAsync(request);
-                return CreatedAtAction(nameof(ObterPorId), new { id = doacao.Id }, doacao);
+                return Created();
             }
             catch (ArgumentException ex)
             {

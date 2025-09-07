@@ -20,6 +20,7 @@ namespace LinkSocial_Domain.DTO.Request
         [Required(ErrorMessage = "O tipo de doação é obrigatório.")]
         public TipoDoacao TipoDoacao { get; set; }
 
+        public bool? Anonima { get; set; } = false;
         public bool? PagamentoParcela { get; set; } = false;
 
         public string? Comentario { get; set; }
