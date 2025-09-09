@@ -14,5 +14,6 @@ namespace LinkSocial_Infra.Contexts
 
         public DbSet<Carteira> Carteiras { get; set; }
         public DbSet<Transacao> Transacoes { get; set; }
+        public DbSet<Pedido> Pedidos{ get; set; }
     }
 }

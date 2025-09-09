@@ -2,6 +2,7 @@
 using LinkSocial_Domain.Interfaces.Auth;
 using LinkSocial_Domain.Interfaces.Carteiras;
 using LinkSocial_Domain.Interfaces.Doacoes;
+using LinkSocial_Domain.Interfaces.Pedidos;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Services;
 using LinkSocial_Infra.Contexts;
@@ -87,6 +88,7 @@ namespace LinkSocial_IoC
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IDoacaoService, DoacaoService>();
             services.AddScoped<IMd5HashService, Md5HashService>();
+            services.AddScoped<IPedidoService, PedidoService>();
 
             services.AddScoped<ICarteiraService, CarteiraService>();
         }
@@ -95,6 +97,7 @@ namespace LinkSocial_IoC
         {
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IDoacaoRepository, DoacaoRepository>();
+            services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<ICarteiraRepository, CarteiraRepository>();
         }
 

@@ -1,6 +1,7 @@
 ﻿using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Carteiras;
+using LinkSocial_Domain.Interfaces.Pedidos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkSocial_API.Controllers
@@ -8,8 +9,16 @@ namespace LinkSocial_API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class CarteiraController(ICarteiraService _carteiraService) : ControllerBase
+    public class CarteiraController : ControllerBase
     {
+        private readonly ICarteiraService _carteiraService;
+        private readonly IPedidoService _pedidoService;
+
+        public CarteiraController(ICarteiraService carteiraService, IPedidoService pedidoService)
+        {
+            _carteiraService = carteiraService;
+            _pedidoService = pedidoService;
+        }
 
         [HttpPost("Transacao")]
         public async Task<IActionResult> RealizaTransacao(NovaTransacaoRequestDTO request)
@@ -18,7 +27,6 @@ namespace LinkSocial_API.Controllers
             return Ok();
         }
 
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTransacaoByUsuarioId(int id)
         {
@@ -26,23 +34,18 @@ namespace LinkSocial_API.Controllers
             return Ok(carteira);
         }
 
-
-
         [HttpGet("Transacao/Recebida/")]
         public async Task<IActionResult> GetTransacaoRecebidas([FromQuery] int EmpresaId, [FromQuery] StatusPagamento? Status)
         {
             var transacoes = await _carteiraService.BuscarTransacoesRecebidas(EmpresaId, Status);
-
             return Ok(transacoes);
         }
 
-
-        [HttpPost("Empresa/{id}/Transacao/Aprovacao")]
-        public async Task<IActionResult> AprovaTransacao(int id)
+        [HttpPost("/Transacao/{id}/Aprovacao")]
+        public async Task<IActionResult> AprovaTransacao(int id, PedidoValidacaoRequestDTO request)
         {
-            throw new NotImplementedException();
+            await _pedidoService.ValidarCodigoUsuario(id, request);
+            return Ok();
         }
-
-
     }
 }

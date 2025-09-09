@@ -3,6 +3,7 @@ using System;
 using LinkSocial_Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LinkSocial_Infra.Migrations
 {
     [DbContext(typeof(LinkSocialDbContext))]
-    partial class LinkSocialDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250909005051_Adicionando Pedidodois")]
+    partial class AdicionandoPedidodois
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +127,7 @@ namespace LinkSocial_Infra.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("EmpresaId")
+                    b.Property<int>("EmpresaId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Modificado_em")
@@ -264,7 +267,9 @@ namespace LinkSocial_Infra.Migrations
                 {
                     b.HasOne("LinkSocial_Domain.Models.Usuario", "Empresa")
                         .WithMany()
-                        .HasForeignKey("EmpresaId");
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LinkSocial_Domain.Models.Transacao", "Transacao")
                         .WithMany()

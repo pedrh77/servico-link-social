@@ -3,12 +3,13 @@ using LinkSocial_Domain.DTO.Request;
 using LinkSocial_Domain.DTO.Response;
 using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Carteiras;
+using LinkSocial_Domain.Interfaces.Pedidos;
 using LinkSocial_Domain.Interfaces.Usuarios;
 using LinkSocial_Domain.Models;
 
 namespace LinkSocial_Domain.Services
 {
-    public class CarteiraService(ICarteiraRepository _carteiraRepository, IUsuarioRepository _usuarioRepository, IMapper _mapper) : ICarteiraService
+    public class CarteiraService(ICarteiraRepository _carteiraRepository, IUsuarioRepository _usuarioRepository, IPedidoService _pedidoService, IMapper _mapper) : ICarteiraService
     {
 
 
@@ -38,6 +39,9 @@ namespace LinkSocial_Domain.Services
             carteira.RegistrarTransacao(transacao);
             await _carteiraRepository.AdicionaTransacao(transacao);
             await _carteiraRepository.AtualizaCarteira(carteira);
+            if (request.Tipo == TipoTransacao.Debito) {
+                _pedidoService.GerarPedido(transacao.Id, transacao.ReceiverId);
+            }
         }
 
         public async Task<Carteira> BuscarCarteiraPorUsuarioId(int id)
