@@ -24,6 +24,8 @@ namespace LinkSocial_Domain.DTO.Request
         [EnumDataType(typeof(TipoUsuario))]
         public TipoUsuario TipoUsuario { get; set; }
 
+        public string ? Comentario { get; set; } = null;
+
         [Required(ErrorMessage = "A senha é obrigatória.")]
         [StringLength(100, MinimumLength = 8, ErrorMessage = "A senha deve ter no mínimo 8 caracteres.")]
         public string Senha { get; set; }
