@@ -6,6 +6,7 @@ namespace LinkSocial_Domain.Models
     {
         public int Id { get; set; }
         public int CarteiraId { get; set; }
+        public Carteira Carteira { get; set; }
         public decimal Valor { get; set; }
         public DateTime Data { get; set; } = DateTime.UtcNow;
         public StatusPagamento Status { get; set; }

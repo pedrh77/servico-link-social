@@ -1,4 +1,5 @@
 ﻿using LinkSocial_Domain.DTO.Request;
+using LinkSocial_Domain.DTO.Response;
 using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Carteiras;
 using LinkSocial_Domain.Interfaces.Pedidos;
@@ -41,10 +42,19 @@ namespace LinkSocial_API.Controllers
             return Ok(transacoes);
         }
 
+        [HttpGet("Transacoes/Enviadas")]
+        public async Task<IActionResult> BuscarCarteiraUsuarioStatus([FromQuery] int UsuarioId, [FromQuery] StatusPagamento? Status)
+        {
+            var transacoes = await _carteiraService.BuscarCarteiraUsuarioStatus(UsuarioId, Status);
+            return Ok(transacoes);
+        }
+
+
         [HttpPost("/Transacao/{id}/Aprovacao")]
         public async Task<IActionResult> AprovaTransacao(int id, PedidoValidacaoRequestDTO request)
         {
-            await _pedidoService.ValidarCodigoUsuario(id, request);
+            await _pedidoService.ValidarTransacaoCodigoUsuario(id, request);
+            await _carteiraService.AtualizaStatusCarteira(id, request.ClientId, request.NovoStatus);
             return Ok();
         }
     }

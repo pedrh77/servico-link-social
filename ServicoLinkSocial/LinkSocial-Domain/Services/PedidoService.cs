@@ -1,19 +1,27 @@
 ﻿using LinkSocial_Domain.DTO.Request;
+using LinkSocial_Domain.Interfaces.Carteiras;
 using LinkSocial_Domain.Interfaces.Pedidos;
 using LinkSocial_Domain.Models;
 
 namespace LinkSocial_Domain.Services
 {
-    public class PedidoService(IPedidoRepository _pedidoRepository) : IPedidoService
+    public class PedidoService : IPedidoService
     {
+        private readonly IPedidoRepository pedidoRepository;
+
+        public PedidoService(IPedidoRepository _pedidoRepository)
+        {
+            pedidoRepository = _pedidoRepository;
+        }
 
         public string GerarCodigo()
         {
             Random _random = new Random();
-            const string letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            return new string(Enumerable.Repeat(letras, 6)
-                 .Select(s => s[_random.Next(s.Length)]).ToArray());
+            const string caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(caracteres, 6)
+                .Select(s => s[_random.Next(s.Length)]).ToArray());
         }
+
 
         public async Task GerarPedido(int transacaoId, int? empresaId)
         {
@@ -26,12 +34,12 @@ namespace LinkSocial_Domain.Services
                 Criado_em = DateTime.UtcNow
             };
 
-            await _pedidoRepository.AdicionaPedidoPendente(pedido);
+            await pedidoRepository.AdicionaPedidoPendente(pedido);
         }
 
-        public async Task ValidarCodigoUsuario(int id, PedidoValidacaoRequestDTO request)
+        public async Task ValidarTransacaoCodigoUsuario(int id, PedidoValidacaoRequestDTO request)
         {
-            var pedido = await _pedidoRepository.BuscaPedidoByIdTransacao(id);
+            var pedido = await pedidoRepository.BuscaPedidoByIdTransacao(id);
             if (pedido == null)
             {
                 throw new Exception("Pedido não encontrado");
@@ -42,11 +50,13 @@ namespace LinkSocial_Domain.Services
                 throw new Exception("Código inválido");
             }
 
+           
+
             pedido.Status = Enum.StatusPagamento.Aprovado;
             pedido.Transacao.Status = Enum.StatusPagamento.Aprovado;
             pedido.Modificado_em = DateTime.UtcNow;
 
-            await _pedidoRepository.AtualizaPedido(pedido);
+            await pedidoRepository.AtualizaPedido(pedido);
         }
     }
 }

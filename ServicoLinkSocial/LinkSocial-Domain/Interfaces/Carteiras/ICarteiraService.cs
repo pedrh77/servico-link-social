@@ -10,7 +10,9 @@ namespace LinkSocial_Domain.Interfaces.Carteiras
     {
 
         Task AdicionarTransacao(NovaTransacaoRequestDTO request);
-        Task<Carteira> BuscarCarteiraPorUsuarioId(int id);
+        Task AtualizaStatusCarteira(int transacaoId, int clientId, StatusPagamento novoStatus);
+        Task<CarteiraResponseDTO> BuscarCarteiraPorUsuarioId(int id);
+        Task<List<TransacaoResponseDTO>> BuscarCarteiraUsuarioStatus(int usuarioId, StatusPagamento? status);
         Task<List<TransacaoResponseDTO>> BuscarTransacoesRecebidas(int empresaId,StatusPagamento? status);
         Task GerarCarteiraUsuario(int id);
     }

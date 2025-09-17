@@ -1,4 +1,5 @@
 ﻿using LinkSocial_Domain.Enum;
+using System.Text.Json.Serialization;
 
 namespace LinkSocial_Domain.Models
 {

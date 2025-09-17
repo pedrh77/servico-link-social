@@ -11,5 +11,7 @@ namespace LinkSocial_Domain.Interfaces.Carteiras
         Task AtualizaCarteira(Carteira carteiradoador);
         Task<Carteira> BuscaCarteiraDoador(int doadorid);
         Task<List<Transacao>> BuscarTransacoesRecebidas(int empresaId, StatusPagamento? status);
+        Task<Transacao?> BuscaTransacaoById(int transacaoid);
+        Task<List<Transacao>> BuscaTransacoesByIdAndStatus(int usuarioId, StatusPagamento? status);
     }
 }
