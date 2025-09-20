@@ -22,6 +22,7 @@ namespace LinkSocial_Domain.DTO.Request
 
         public bool? Anonima { get; set; } = false;
         public bool? PagamentoParcela { get; set; } = false;
+        public int? PrimeiraDoacao { get; set; }
 
         public string? Comentario { get; set; }
     }

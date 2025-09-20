@@ -30,7 +30,7 @@ namespace LinkSocial_Infra.Repository
         {
             if (status == null)
                 return await _context.Pedidos.Include(x => x.Transacao).Include(x=>x.Doador).Where(x => x.EmpresaId == id && x.Transacao.Status == StatusPagamento.Pendente && x.Deleted == false).ToListAsync();
-            return await _context.Pedidos.Include(x => x.Transacao).Where(x => x.EmpresaId == id && x.Transacao.Status == status && x.Deleted == false).ToListAsync();
+            return await _context.Pedidos.Include(x => x.Transacao).Include(x=>x.Doador).Where(x => x.EmpresaId == id && x.Transacao.Status == status && x.Deleted == false).ToListAsync();
         }
     }
 }

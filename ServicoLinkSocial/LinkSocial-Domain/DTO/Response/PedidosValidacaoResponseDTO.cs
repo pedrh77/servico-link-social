@@ -14,5 +14,6 @@ namespace LinkSocial_Domain.DTO.Response
         public string NomeDoador { get; set; }
         public decimal Valor { get; set; }
         public StatusPagamento Status { get; set; }
+        public DateTime DataCriacao { get; set; }
     }
 }

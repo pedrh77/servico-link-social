@@ -14,6 +14,9 @@ namespace LinkSocial_Domain.DTO.Response
         public DateTime CriadoEm { get; set; }
         public StatusPagamento StatusPagamento { get; set; }
         public bool Anonima { get; set; } = false;
-        public string? Comentario { get; set; } 
+        public string? Comentario { get; set; }
+        public int NumeroParcela { get; set; } = 1;   
+        public int TotalParcelas { get; set; } = 1;  
+        public int? DoacaoPrincipalId { get; set; }
     }
 } 

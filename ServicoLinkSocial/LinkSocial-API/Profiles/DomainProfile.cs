@@ -43,6 +43,7 @@ namespace LinkSocial_API.Profiles
            .ForMember(dest => dest.Codigo, opt => opt.MapFrom(src => src.Codigo))
            .ForMember(dest => dest.TransacaoId, opt => opt.MapFrom(src => src.TransacaoId))
            .ForMember(dest => dest.Valor, opt => opt.MapFrom(src => src.Transacao.Valor))
+           .ForMember(dest => dest.DataCriacao, opt => opt.MapFrom(src => src.Criado_em))
            .ForMember(dest => dest.NomeDoador, opt => opt.MapFrom(src => src.Doador.Nome))
            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Transacao.Status));
 

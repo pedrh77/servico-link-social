@@ -26,7 +26,10 @@ namespace LinkSocial_Domain.Services
 
             if (request.PagamentoParcela == true)
             {
-                var doacaoExistente = await _doacaoRepository.BuscaDoacaoPorValorUsuario(request.DoadorId, request.Valor, request.OngId);
+
+
+
+                var doacaoExistente = await _doacaoRepository.ObterPorIdAsync(request.PrimeiraDoacao.Value);
 
                 if (doacaoExistente == null)
                     throw new ArgumentException("Nenhuma doação encontrada para continuar o parcelamento.");
@@ -45,6 +48,8 @@ namespace LinkSocial_Domain.Services
                     TotalParcelas = doacaoExistente.TotalParcelas,
                     NumeroParcela = proximaParcela
                 };
+
+                doacaoExistente.Parcelas.Add(doacao);
             }
             else
             {
