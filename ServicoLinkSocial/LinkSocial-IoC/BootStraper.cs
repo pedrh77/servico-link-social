@@ -53,7 +53,7 @@ namespace LinkSocial_IoC
                     OnAuthenticationFailed = context =>
                     {
                         Console.WriteLine("Token inválido: " + context.Exception.Message);
-                        return Task.CompletedTask;
+                        throw new UnauthorizedAccessException("Token Invalido");
                     },
                     OnTokenValidated = context =>
                     {
