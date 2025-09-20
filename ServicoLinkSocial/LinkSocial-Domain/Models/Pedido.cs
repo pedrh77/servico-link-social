@@ -11,5 +11,8 @@ namespace LinkSocial_Domain.Models
         public int? EmpresaId { get; set; }
         public Usuario Empresa { get; set; }
         public StatusPagamento Status { get; set; }
+        
+        public int DoadorId { get; set; }
+        public Usuario Doador { get; set; }
     }
 }

@@ -61,7 +61,6 @@ namespace LinkSocial_API.Controllers
         }
 
         [HttpGet("doador/{doadorId}")]
-        [Authorize(Roles = "Doador")]
         public async Task<IActionResult> BuscarPorDoador(int doadorId)
         {
             try

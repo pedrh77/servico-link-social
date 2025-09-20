@@ -1,4 +1,5 @@
-﻿using LinkSocial_Domain.Models;
+﻿using LinkSocial_Domain.Enum;
+using LinkSocial_Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace LinkSocial_Domain.Interfaces.Pedidos
         Task AdicionaPedidoPendente(Pedido pedido);
         Task AtualizaPedido(Pedido pedido);
         Task<Pedido?> BuscaPedidoByIdTransacao(int id);
+        Task<List<Pedido>> BuscaPedidosEmpresaId(int id, StatusPagamento? status);
     }
 }

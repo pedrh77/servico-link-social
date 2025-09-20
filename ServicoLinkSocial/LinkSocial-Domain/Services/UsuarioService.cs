@@ -44,10 +44,10 @@ namespace LinkSocial_Domain.Services
             return usuario;
         }
 
-        public async Task<List<UsuarioResponseDTO>> ObterPorTipo(TipoUsuario tipo)
+        public async Task<List<UsuarioPorTipoResponseDTO>> ObterPorTipo(TipoUsuario tipo)
         {
             var usuarios = await _usuarioRepository.ObterPorTipo(tipo);
-            return _mapper.Map<List<UsuarioResponseDTO>>(usuarios);
+            return _mapper.Map<List<UsuarioPorTipoResponseDTO>>(usuarios);
         }
 
         public async Task<List<UsuarioResponseDTO>> ObterTodos()

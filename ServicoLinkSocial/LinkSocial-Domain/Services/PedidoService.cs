@@ -1,17 +1,19 @@
-﻿using LinkSocial_Domain.DTO.Request;
-using LinkSocial_Domain.Interfaces.Carteiras;
+﻿using AutoMapper;
+using LinkSocial_Domain.DTO.Request;
+using LinkSocial_Domain.DTO.Response;
+using LinkSocial_Domain.Enum;
 using LinkSocial_Domain.Interfaces.Pedidos;
 using LinkSocial_Domain.Models;
 
 namespace LinkSocial_Domain.Services
 {
-    public class PedidoService : IPedidoService
+    public class PedidoService(IPedidoRepository _pedidoRepository, IMapper _mapper) : IPedidoService
     {
-        private readonly IPedidoRepository pedidoRepository;
-
-        public PedidoService(IPedidoRepository _pedidoRepository)
+   
+        public async  Task<List<PedidosValidacaoResponseDTO>> BuscaPedidosValidacao(int id, StatusPagamento? status)
         {
-            pedidoRepository = _pedidoRepository;
+            List<Pedido> pedidos = await _pedidoRepository.BuscaPedidosEmpresaId(id, status);
+            return _mapper.Map<List<PedidosValidacaoResponseDTO>>(pedidos);
         }
 
         public string GerarCodigo()
@@ -23,7 +25,7 @@ namespace LinkSocial_Domain.Services
         }
 
 
-        public async Task GerarPedido(int transacaoId, int? empresaId)
+        public async Task GerarPedido(int transacaoId, int? empresaId, int doadorId)
         {
             var pedido = new Pedido
             {
@@ -31,15 +33,16 @@ namespace LinkSocial_Domain.Services
                 TransacaoId = transacaoId,
                 EmpresaId = empresaId,
                 Status = Enum.StatusPagamento.Pendente,
-                Criado_em = DateTime.UtcNow
+                Criado_em = DateTime.UtcNow,
+                DoadorId = doadorId
             };
 
-            await pedidoRepository.AdicionaPedidoPendente(pedido);
+            await _pedidoRepository.AdicionaPedidoPendente(pedido);
         }
 
         public async Task ValidarTransacaoCodigoUsuario(int id, PedidoValidacaoRequestDTO request)
         {
-            var pedido = await pedidoRepository.BuscaPedidoByIdTransacao(id);
+            var pedido = await _pedidoRepository.BuscaPedidoByIdTransacao(id);
             if (pedido == null)
             {
                 throw new Exception("Pedido não encontrado");
@@ -50,13 +53,12 @@ namespace LinkSocial_Domain.Services
                 throw new Exception("Código inválido");
             }
 
-           
 
             pedido.Status = Enum.StatusPagamento.Aprovado;
             pedido.Transacao.Status = Enum.StatusPagamento.Aprovado;
             pedido.Modificado_em = DateTime.UtcNow;
 
-            await pedidoRepository.AtualizaPedido(pedido);
+            await _pedidoRepository.AtualizaPedido(pedido);
         }
     }
 }

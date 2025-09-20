@@ -38,11 +38,12 @@ namespace LinkSocial_Domain.Services
             }
 
             await _carteiraRepository.AdicionaTransacao(transacao);
-
+            carteira.RegistrarTransacao(transacao);
+            await _carteiraRepository.AtualizaCarteira(carteira);
 
             if (request.Tipo == TipoTransacao.Debito)
             {
-                _pedidoService.GerarPedido(transacao.Id, transacao.ReceiverId);
+                _pedidoService.GerarPedido(transacao.Id, transacao.ReceiverId, request.DoadorId);
             }
         }
 
