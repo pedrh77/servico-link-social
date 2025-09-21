@@ -19,6 +19,7 @@ namespace LinkSocial_Infra.Repository
         public async Task<Doacao?> ObterPorIdAsync(int id)
         {
             return await _context.Doacoes
+                .Include(d=>d.Parcelas)
                 .Include(d => d.Doador)
                 .Include(d => d.Ong)
                 .FirstOrDefaultAsync(d => d.Id == id);

@@ -22,6 +22,9 @@ namespace LinkSocial_API.Profiles
             .ForMember(
                 dest => dest.NomeDoador,
                 opt => opt.MapFrom(src => src.Anonima ? null : src.Doador.Nome)
+            ).ForMember(
+                dest => dest.NomeOng,
+                opt => opt.MapFrom(src => src.Ong.Nome )
             );
 
 
@@ -33,7 +36,10 @@ namespace LinkSocial_API.Profiles
 
 
             CreateMap<Carteira, CarteiraResponseDTO>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+                .ForMember(dest => dest.Saldo, opt => opt.MapFrom(src => src.SaldoAprovado.ToString()))
+                .ForMember(dest => dest.SaldoPendente, opt => opt.MapFrom(src => src.SaldoPendente.ToString()))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+                ;
 
             CreateMap<Transacao, TransacaoDto>()
                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo.ToString()))
@@ -45,6 +51,7 @@ namespace LinkSocial_API.Profiles
            .ForMember(dest => dest.Valor, opt => opt.MapFrom(src => src.Transacao.Valor))
            .ForMember(dest => dest.DataCriacao, opt => opt.MapFrom(src => src.Criado_em))
            .ForMember(dest => dest.NomeDoador, opt => opt.MapFrom(src => src.Doador.Nome))
+           .ForMember(dest => dest.NomeTransacao, opt => opt.MapFrom(src => src.Transacao.NomeTransacao))
            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Transacao.Status));
 
 

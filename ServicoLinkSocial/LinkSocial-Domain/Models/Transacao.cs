@@ -13,6 +13,6 @@ namespace LinkSocial_Domain.Models
         public TipoTransacao Tipo { get; set; }
         public int? ReceiverId { get; set; }
         public Usuario? Receiver { get; set; }
-        public string NomeTransacao { get; set; }
+        public string? NomeTransacao { get; set; } = null;
     }
 }

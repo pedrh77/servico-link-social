@@ -35,7 +35,7 @@ namespace LinkSocial_Domain.Services
                     throw new ArgumentException("Nenhuma doação encontrada para continuar o parcelamento.");
 
 
-                int proximaParcela = doacaoExistente.NumeroParcela + 1;
+                int proximaParcela = doacaoExistente.Parcelas.Count() + 1;
                 if (proximaParcela > doacaoExistente.TotalParcelas)
                     throw new Exception("Todas as parcelas já foram pagas.");
 

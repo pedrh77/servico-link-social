@@ -12,6 +12,7 @@ namespace LinkSocial_Domain.DTO.Response
         public string Codigo { get; set; }
         public int TransacaoId { get; set; }
         public string NomeDoador { get; set; }
+        public string NomeTransacao { get; set; }
         public decimal Valor { get; set; }
         public StatusPagamento Status { get; set; }
         public DateTime DataCriacao { get; set; }
