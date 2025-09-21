@@ -13,6 +13,7 @@ namespace LinkSocial_Domain.Services
     {
 
 
+
         public async Task AdicionarTransacao(NovaTransacaoRequestDTO request)
         {
             var carteira = await _carteiraRepository.BuscaCarteiraDoador(request.DoadorId);
@@ -27,7 +28,7 @@ namespace LinkSocial_Domain.Services
                     throw new Exception("AdicionarTransacao: Usuario não empresa ou Empresa Não Existe");
             }
 
-             var transacao = _mapper.Map<Transacao>(request);
+            var transacao = _mapper.Map<Transacao>(request);
             transacao.Criado_em = DateTime.UtcNow;
             transacao.CarteiraId = carteira.Id;
             transacao.Status = StatusPagamento.Pendente;
@@ -37,17 +38,22 @@ namespace LinkSocial_Domain.Services
                     throw new Exception($"Transação não permitida. O ValorTotal deve ser pelo menos {request.Valor * 2}.");
             }
 
-            await _carteiraRepository.AdicionaTransacao(transacao);
             carteira.RegistrarTransacao(transacao);
+
+            transacao.NomeTransacao = _pedidoService.GerarCodigo(3);
+            await _carteiraRepository.AdicionaTransacao(transacao);
             await _carteiraRepository.AtualizaCarteira(carteira);
 
             if (request.Tipo == TipoTransacao.Debito)
             {
-                _pedidoService.GerarPedido(transacao.Id, transacao.ReceiverId, request.DoadorId);
+                await _pedidoService.GerarPedido(transacao.Id, transacao.ReceiverId, request.DoadorId);
+
             }
+
         }
 
-        public async Task AtualizaStatusCarteira(int transacaoId, int clientId, StatusPagamento novoStatus)
+
+        public async Task<bool> AtualizaStatusCarteira(int transacaoId, int clientId, StatusPagamento novoStatus)
         {
             var transacao = await _carteiraRepository.BuscaTransacaoById(transacaoId);
             if (transacao == null)
@@ -55,17 +61,31 @@ namespace LinkSocial_Domain.Services
 
             transacao.Status = novoStatus;
 
-            if (novoStatus == StatusPagamento.Aprovado)
+
+            var carteira = await _carteiraRepository.BuscaCarteiraDoador(clientId);
+            if (carteira == null)
+                throw new Exception("Carteira não encontrada para o usuário.");
+            if (carteira.Saldo >= transacao.Valor)
             {
-                var carteira = await _carteiraRepository.BuscaCarteiraDoador(clientId);
 
-                if (carteira == null)
-                    throw new Exception("Carteira não encontrada para o usuário.");
+                if (novoStatus == StatusPagamento.Aprovado)
+                {
 
-                carteira.RegistrarTransacao(transacao);
+                    carteira.RegistrarTransacao(transacao);
+                    await _carteiraRepository.AtualizaCarteira(carteira);
+                    return true;
+                }
+                return false;
 
-                await _carteiraRepository.AtualizaCarteira(carteira);
             }
+            else
+            {
+
+                transacao.Status = StatusPagamento.Rejeitado;
+                await _carteiraRepository.AtualizaCarteira(carteira);
+                return false;
+            }
+
         }
 
 
@@ -100,5 +120,6 @@ namespace LinkSocial_Domain.Services
             await _carteiraRepository.AdicionaCarteiraDoador(carteira);
 
         }
+
     }
 }

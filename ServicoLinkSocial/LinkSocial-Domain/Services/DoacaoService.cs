@@ -46,7 +46,8 @@ namespace LinkSocial_Domain.Services
                     Valor = request.Valor,
                     StatusPagamento = StatusPagamento.Pendente,
                     TotalParcelas = doacaoExistente.TotalParcelas,
-                    NumeroParcela = proximaParcela
+                    NumeroParcela = proximaParcela,
+                    Criado_em = DateTime.UtcNow
                 };
 
                 doacaoExistente.Parcelas.Add(doacao);
@@ -75,7 +76,6 @@ namespace LinkSocial_Domain.Services
                 Valor = doacao.Valor * 2,
                 Tipo = TipoTransacao.Credito,
                 EmpresaId = null,
-
             };
 
 

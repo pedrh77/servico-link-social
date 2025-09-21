@@ -51,10 +51,12 @@ namespace LinkSocial_API.Controllers
         [HttpPost("Transacao/{id}/Aprovacao")]
         public async Task<IActionResult> AprovaTransacao(int id, PedidoValidacaoRequestDTO request)
         {
-            await _pedidoService.ValidarTransacaoCodigoUsuario(id, request);
-            await _carteiraService.AtualizaStatusCarteira(id, request.ClienteId, request.NovoStatus);
+            var aprovado = await _carteiraService.AtualizaStatusCarteira(id, request.ClienteId, request.NovoStatus);
+            await _pedidoService.ValidarTransacaoCodigoUsuario(id, request, aprovado);
             return Ok();
         }
+
+
 
     }
 }
