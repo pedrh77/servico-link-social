@@ -36,7 +36,7 @@ namespace LinkSocial_Domain.Models
 
         public void AprovarTransacao(Transacao transacao)
         {
-            if (transacao.Status != StatusPagamento.Aprovado)
+            if (transacao.Status != StatusPagamento.Pendente)
                 throw new InvalidOperationException("Só é possível aprovar transações pendentes.");
 
 
